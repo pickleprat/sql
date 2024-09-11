@@ -58,13 +58,12 @@ SELECT main_id FROM source WHERE main_id NOT IN (
 ); 
 
 -- but a more appropirate way to do it is as follows: 
-SELECT main_id FROM source src WHERE main_id NOT EXISTS (
-	SELECT target_id FROM target tgt WHERE 
+SELECT main_id FROM source src WHERE NOT EXISTS (
+	SELECT 1 FROM target tgt WHERE 
 	src.main_id = tgt.target_id
-)
+); 
 -- this method is called a correlated subquery in which each value in the outer query 
 -- is iteratively referenced in the correlated subquery 
-
 
 
 
