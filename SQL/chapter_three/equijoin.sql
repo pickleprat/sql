@@ -4,6 +4,7 @@ CASE (average - 3 * stdev)
 WHEN (average - 3 * stdev) > 0 THEN (average - 3 * stdev)  
 ELSE 0 END AS rubi_min FROM (
 SELECT STD(unit_price) AS stdev, AVG(unit_price) AS average FROM (
+	-- this join is also the same as inner join 
 	SELECT c.customer_name, c.contact_no, 
 	       t.unit, t.unit_price, t.quantity, 
 	       CAST(CONCAT(tm.year, "-", tm.month, "-", tm.day) AS DATE) 
@@ -17,3 +18,20 @@ SELECT STD(unit_price) AS stdev, AVG(unit_price) AS average FROM (
 	      tm.time_key = t.time_key AND 
 	      c.customer_key LIKE 'C000939'
 ) d) x;  
+
+-- create a view 
+-- CREATE VIEW t AS (
+-- 	SELECT customer_key, time_key, unit, unit_price, quantity 
+-- 	FROM Transactions
+-- );   
+--
+-- SELECT c.customer_name, c.contact_no, 
+--        t.unit, t.unit_price, t.quantity, 
+--        CAST(CONCAT(tm.year, "-", tm.month, "-", tm.day) AS DATE) 
+-- AS date_of_transaction 
+-- FROM t JOIN Customers c
+-- ON t.customer_key = c.customer_key 
+-- JOIN Time tm 
+-- ON tm.time_key = t.time_key
+-- WHERE c.customer_key LIKE 'C000939';  
+--
