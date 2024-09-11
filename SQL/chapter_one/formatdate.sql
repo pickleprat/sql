@@ -1,0 +1,10 @@
+UPDATE orders 
+SET Date = CONCAT(
+	IF(CAST(SUBSTRING_INDEX(Date, '-', -1) AS UNSIGNED) < 100, 
+		CONCAT('20', SUBSTRING_INDEX(Date, '-', -1)), 
+		SUBSTRING_INDEX(Date, '-', -1)), 
+	SUBSTRING_INDEX(Date, '-', 1), 
+	SUBSTRING_INDEX(SUBSTRING_INDEX(Date, '-', 2), '-', -1) 
+); 
+
+ALTER TABLE orders MODIFY COLUMN Date DATE; 
